@@ -1,79 +1,75 @@
 package com.sparta.pages;
 
-import net.serenitybdd.core.annotations.findby.FindBy;
-import net.serenitybdd.core.pages.PageObject;
-import net.serenitybdd.core.pages.WebElementFacade;
-import net.thucydides.core.annotations.DefaultUrl;
-import org.openqa.selenium.By;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 
-import java.util.List;
+public class CartPage {
+    private final Page page;
 
+    private final Locator productsButton;
+    private final Locator addFirstProductButton;
+    private final Locator continueShoppingButton;
+    private final Locator cartButton;
+    private final Locator proceedToCheckoutButton;
+    private final Locator cartTable;
+    private final Locator placeOrderButton;
+    private final Locator deliveryAddress;
+    private final Locator billingAddress;
+    private final Locator prices;
+    private final Locator itemPrices;
+    private final Locator itemQuantities;
+    private final Locator displayedItemTotals;
+    private final Locator totalAmount;
+    private final Locator addToCartButton;
+    private final Locator viewCartButton;
+    private final Locator quantityButton;
+    private final Locator checkOutButton;
+    private final Locator totalPrice;
+    private final Locator deleteButton;
+    private final Locator confirmationMessage;
+    private final Locator emptyCartMessage;
+    private final Locator cartRows;
+    private final Locator addSecondProductButton;
 
-@DefaultUrl("https://automationexercise.com/view_cart")
-public class CartPage extends PageObject {
-    @FindBy(xpath = "//a[contains(text(), 'Products')]")
-    private WebElementFacade productsButton;
-    @FindBy(xpath = "(//a[contains(text(), 'Add to cart')])[1]")
-    private WebElementFacade addFirstProductButton;
-    @FindBy(xpath = "//button[contains(text(), 'Continue Shopping')]")
-    private WebElementFacade continueShoppingButton;
-    @FindBy(xpath = "//a[contains(text(), 'Cart')]")
-    private WebElementFacade cartButton;
-    @FindBy(xpath = "//a[contains(text(), 'Proceed To Checkout')]")
-    private WebElementFacade proceedToCheckoutButton;
-    @FindBy(xpath = "cart_info")
-    private WebElementFacade cartTable;
-    @FindBy(xpath = "//a[contains(text(), 'Place Order')]")
-    private WebElementFacade placeOrderButton;
-    @FindBy(id = "address_delivery")
-    private WebElementFacade deliveryAddress;
-    @FindBy(id = "address_invoice")
-    private WebElementFacade billingAddress;
-    @FindBy(className = "cart_total_price")
-    private List<WebElementFacade> prices;
-    @FindBy(css = "#cart_info tbody tr:not(:last-child) .cart_price p")
-    private List<WebElementFacade> itemPrices;
-    @FindBy(css = "#cart_info tbody tr:not(:last-child) .cart_quantity button")
-    private List<WebElementFacade> itemQuantities;
-    @FindBy(css = "#cart_info tbody tr:not(:last-child) .cart_total_price")
-    private List<WebElementFacade> displayedItemTotals;
-    @FindBy(css = "#cart_info tbody tr:last-child .cart_total_price")
-    private WebElementFacade totalAmount;
+    public CartPage(Page page) {
+        this.page = page;
 
-    @FindBy(css = "a.add-to-cart")
-    private WebElementFacade addToCartButton;
-
-    @FindBy(css = "#cartModal a[href='/view_cart']")
-    private WebElementFacade viewCartButton;
-
-    @FindBy(css = "button.disabled")
-    private WebElementFacade quantityButton;
-
-    @FindBy(css = "button.check_out")
-    private WebElementFacade checkOutButton;
-
-    @FindBy(css = "p.cart_total_price")
-    private WebElementFacade totalPrice;
-
-    @FindBy(css = "a.cart_quantity_delete")
-    private WebElementFacade deleteButton;
-
-    @FindBy(css= "#cartModal .modal-body p.text-center")
-    private WebElementFacade confirmationMessage;
-
-    private final By emptyCartMessage = By.id("empty_cart");
-    private final By cartRows = By.cssSelector("#cart_info_table tbody tr");
-    private final By addSecondProductButton = By.xpath("(//a[contains(text(), 'Add to cart')])[2]");
+        productsButton = page.locator("xpath=//a[contains(text(), 'Products')]");
+        addFirstProductButton = page.locator("xpath=(//a[contains(text(), 'Add to cart')])[1]");
+        continueShoppingButton = page.locator("xpath=//button[contains(text(), 'Continue Shopping')]");
+        cartButton = page.locator("xpath=//a[contains(text(), 'Cart')]");
+        proceedToCheckoutButton = page.locator("xpath=//a[contains(text(), 'Proceed To Checkout')]");
+        cartTable = page.locator("xpath=cart_info");
+        placeOrderButton = page.locator("xpath=//a[contains(text(), 'Place Order')]");
+        deliveryAddress = page.locator("#address_delivery");
+        billingAddress = page.locator("#address_invoice");
+        prices = page.locator(".cart_total_price");
+        itemPrices = page.locator("#cart_info tbody tr:not(:last-child) .cart_price p");
+        itemQuantities = page.locator("#cart_info tbody tr:not(:last-child) .cart_quantity button");
+        displayedItemTotals = page.locator("#cart_info tbody tr:not(:last-child) .cart_total_price");
+        totalAmount = page.locator("#cart_info tbody tr:last-child .cart_total_price");
+        addToCartButton = page.locator("a.add-to-cart");
+        viewCartButton = page.locator("#cartModal a[href='/view_cart']");
+        quantityButton = page.locator("button.disabled");
+        checkOutButton = page.locator("button.check_out");
+        totalPrice = page.locator("p.cart_total_price");
+        deleteButton = page.locator("a.cart_quantity_delete");
+        confirmationMessage = page.locator("#cartModal .modal-body p.text-center");
+        emptyCartMessage = page.locator("#empty_cart");
+        cartRows = page.locator("#cart_info_table tbody tr");
+        addSecondProductButton = page.locator("xpath=(//a[contains(text(), 'Add to cart')])[2]");
+    }
 
     public void addProductToCart() {
         productsButton.click();
         addFirstProductButton.click();
         continueShoppingButton.click();
     }
+
     public void addSecondProductToCart() {
-        $(productsButton).click();
-        $(addSecondProductButton).click();
-        $(continueShoppingButton).click();
+        productsButton.click();
+        addSecondProductButton.click();
+        continueShoppingButton.click();
     }
 
     public void openCart() {
@@ -89,7 +85,7 @@ public class CartPage extends PageObject {
     }
 
     public boolean isOnCheckoutPage() {
-        return getDriver().getCurrentUrl().contains("checkout");
+        return page.url().contains("checkout");
     }
 
     public boolean areSelectedProductsDisplayed() {
@@ -109,13 +105,18 @@ public class CartPage extends PageObject {
     }
 
     public int getTotalPrice() {
-        var priceString = prices.getLast().getText().substring(4);
+        var priceString = prices.last().innerText().substring(4);
         return Integer.parseInt(priceString);
     }
 
     public int getSumPrice() {
-        var priceStrings = prices.reversed().stream().skip(1).map(el -> el.getText().substring(4));
-        return priceStrings.map(Integer::parseInt).reduce(0, Integer::sum);
+        int sum = 0;
+
+        for (int i = prices.count() - 2; i >= 0; i--) {
+            sum += Integer.parseInt(prices.nth(i).innerText().substring(4));
+        }
+
+        return sum;
     }
 
     public boolean isTotalAmountDisplayed() {
@@ -123,11 +124,13 @@ public class CartPage extends PageObject {
     }
 
     public int getDisplayedOrderTotal() {
-        return extractNumber(totalAmount.getText());
+        return extractNumber(totalAmount.innerText());
     }
 
     public int calculateOrderTotalFromPriceAndQuantity() {
-        if (prices.isEmpty() || prices.size() != itemQuantities.size()) {
+        int priceCount = prices.count();
+
+        if (priceCount == 0 || priceCount != itemQuantities.count()) {
             throw new IllegalStateException(
                     "Could not calculate total because the item prices and quantities did not match."
             );
@@ -135,9 +138,9 @@ public class CartPage extends PageObject {
 
         int calculatedTotal = 0;
 
-        for (int i = 0; i < prices.size(); i++) {
-            int price = extractNumber(prices.get(i).getText());
-            int quantity = extractNumber(itemQuantities.get(i).getText());
+        for (int i = 0; i < priceCount; i++) {
+            int price = extractNumber(prices.nth(i).innerText());
+            int quantity = extractNumber(itemQuantities.nth(i).innerText());
 
             calculatedTotal += price * quantity;
         }
@@ -146,13 +149,19 @@ public class CartPage extends PageObject {
     }
 
     public int calculateOrderTotalFromDisplayedItemTotals() {
-        if (displayedItemTotals.isEmpty()) {
+        int displayedItemTotalCount = displayedItemTotals.count();
+
+        if (displayedItemTotalCount == 0) {
             throw new IllegalStateException("No item totals were displayed.");
         }
 
-        return displayedItemTotals.stream()
-                .mapToInt(element -> extractNumber(element.getText()))
-                .sum();
+        int total = 0;
+
+        for (int i = 0; i < displayedItemTotalCount; i++) {
+            total += extractNumber(displayedItemTotals.nth(i).innerText());
+        }
+
+        return total;
     }
 
     private int extractNumber(String text) {
@@ -176,8 +185,8 @@ public class CartPage extends PageObject {
     }
 
     public int getQuantity() {
-        quantityButton.getText();
-        return Integer.parseInt(quantityButton.getText());
+        quantityButton.innerText();
+        return Integer.parseInt(quantityButton.innerText());
     }
 
     public void clickQuantityButton() {
@@ -189,9 +198,11 @@ public class CartPage extends PageObject {
     }
 
     public String confirmationMessage() {
-        return confirmationMessage.getText();
+        return confirmationMessage.innerText();
     }
+
     public boolean isCartEmpty() {
-        return $(emptyCartMessage).isVisible();
+        return emptyCartMessage.isVisible();
     }
 }
+
